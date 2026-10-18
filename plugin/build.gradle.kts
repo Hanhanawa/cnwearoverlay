@@ -2,8 +2,8 @@ plugins {
     `java-gradle-plugin`
 }
 
-group = "cc.star0.wear.lib"
-version = "1.0.0"
+group = "com.github.Hanhanawa.cnwearoverlay"
+version = providers.gradleProperty("version").getOrElse("1.0.1")
 
 java {
     // 与 xposed 构建统一使用 Java 17。
