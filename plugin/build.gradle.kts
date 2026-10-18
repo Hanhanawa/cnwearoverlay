@@ -1,12 +1,13 @@
 plugins {
     `java-gradle-plugin`
+    `maven-publish`
 }
 
 group = "com.github.Hanhanawa.cnwearoverlay"
 version = providers.gradleProperty("version").getOrElse("1.0.1")
 
 java {
-    // 与 xposed 构建统一使用 Java 17。
+    // 涓?xposed 鏋勫缓缁熶竴浣跨敤 Java 17銆?
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
@@ -17,11 +18,11 @@ tasks.withType<JavaCompile>().configureEach {
 
 dependencies {
     compileOnly(gradleApi())
-    // 与 xposed 构建使用同一 AGP 基线；运行时由使用方 AGP 提供。
+    // 涓?xposed 鏋勫缓浣跨敤鍚屼竴 AGP 鍩虹嚎锛涜繍琛屾椂鐢变娇鐢ㄦ柟 AGP 鎻愪緵銆?
     compileOnly("com.android.tools.build:gradle-api:9.4.1")
-    // ASM 由 AGP 的 instrumentation 运行时提供
+    // ASM 鐢?AGP 鐨?instrumentation 杩愯鏃舵彁渚?
     compileOnly("org.ow2.asm:asm:9.10.1")
-    // 仅用于 transformClassesWith 的 Function1 lambda 返回 Unit
+    // 浠呯敤浜?transformClassesWith 鐨?Function1 lambda 杩斿洖 Unit
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.4.20")
 }
 
@@ -37,8 +38,8 @@ gradlePlugin {
 }
 
 // ---------------------------------------------------------------------------
-// 内嵌运行时 jar：注入到使用方 app 中的辅助类与 com.google.wear.input 桩类。
-// 运行时源码针对极简 android 桩类编译（不随 jar 发布），产物打进插件资源。
+// 鍐呭祵杩愯鏃?jar锛氭敞鍏ュ埌浣跨敤鏂?app 涓殑杈呭姪绫讳笌 com.google.wear.input 妗╃被銆?
+// 杩愯鏃舵簮鐮侀拡瀵规瀬绠€ android 妗╃被缂栬瘧锛堜笉闅?jar 鍙戝竷锛夛紝浜х墿鎵撹繘鎻掍欢璧勬簮銆?
 // ---------------------------------------------------------------------------
 
 val runtimeClassesDir = layout.buildDirectory.dir("cnwear/runtime-classes")
@@ -70,7 +71,7 @@ runtimeHelperJar.configure {
 }
 val runtimeStubJar = embeddedRuntimeJar("cnWearRuntimeStubJar", "cnwearoverlay-stub.jar", "com/**")
 
-// 两个 jar 输出到同一目录，srcDir 只需挂一次
+// 涓や釜 jar 杈撳嚭鍒板悓涓€鐩綍锛宻rcDir 鍙渶鎸備竴娆?
 sourceSets.main {
     resources.srcDir(embeddedDir)
 }
